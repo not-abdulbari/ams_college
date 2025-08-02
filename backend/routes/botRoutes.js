@@ -33,7 +33,36 @@ const handleGeminiRequest = async (prompt) => {
     throw new Error(error.response?.data?.error?.message || "AI service unavailable");
   }
 };
-// Improved Ask Endpoint using subject name exclusively
+/**
+ * @swagger
+ * /api/ask:
+ *   post:
+ *     summary: Ask a question to the Gemini AI bot (by subject name)
+ *     tags: [Bot]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               subject:
+ *                 type: string
+ *               messages:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     content:
+ *                       type: string
+ *     responses:
+ *       200:
+ *         description: Gemini AI response
+ *       400:
+ *         description: Invalid request parameters
+ *       404:
+ *         description: Subject not found
+ */
 router.post("/", async (req, res) => {
   try {
     // Expect the client to send subject (now the subject name)

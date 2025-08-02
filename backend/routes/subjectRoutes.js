@@ -3,6 +3,16 @@ const router = express.Router();
 const sequelize = require("../config/db"); // Sequelize instance
 const { QueryTypes } = require("sequelize");
 
+/**
+ * @swagger
+ * /api/subjects/adminlist:
+ *   get:
+ *     summary: Get all subjects (admin)
+ *     tags: [Subjects]
+ *     responses:
+ *       200:
+ *         description: List of all subjects
+ */
 router.get('/adminlist', async (req, res) => {
   try {
     const subjects = await sequelize.query(
@@ -16,6 +26,39 @@ router.get('/adminlist', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/subjects/list:
+ *   get:
+ *     summary: Get subjects by branch, batchYear, and semester
+ *     tags: [Subjects]
+ *     parameters:
+ *       - in: query
+ *         name: branch
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Branch name
+ *       - in: query
+ *         name: batchYear
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Batch year
+ *       - in: query
+ *         name: semester
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Semester
+ *     responses:
+ *       200:
+ *         description: List of subjects for the given branch, batchYear, and semester
+ *       400:
+ *         description: Missing required parameters
+ *       404:
+ *         description: No subjects found
+ */
 router.get('/list', async (req, res) => {
   try {
     const { batchYear, semester, branch } = req.query;
@@ -44,7 +87,25 @@ router.get('/list', async (req, res) => {
 });
 
 
-// Get subject details by subject code, returning subject name
+/**
+ * @swagger
+ * /api/subjects/{subjectCode}:
+ *   get:
+ *     summary: Get subject details by subject code
+ *     tags: [Subjects]
+ *     parameters:
+ *       - in: path
+ *         name: subjectCode
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Subject code
+ *     responses:
+ *       200:
+ *         description: Subject details
+ *       404:
+ *         description: Subject not found
+ */
 router.get("/:subjectCode", async (req, res) => {
   try {
     // Normalize the subject code to uppercase and trim spaces
@@ -82,7 +143,33 @@ router.get("/:subjectCode", async (req, res) => {
   }
 });
 
-// Get subjects by branch and batchYear
+/**
+ * @swagger
+ * /api/subjects:
+ *   get:
+ *     summary: Get subjects by branch and batchYear
+ *     tags: [Subjects]
+ *     parameters:
+ *       - in: query
+ *         name: branch
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Branch name
+ *       - in: query
+ *         name: batchYear
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Batch year
+ *     responses:
+ *       200:
+ *         description: List of subjects for the given branch and batchYear
+ *       400:
+ *         description: Missing required parameters
+ *       404:
+ *         description: No subjects found
+ */
 router.get('/', async (req, res) => {
   try {
     const { branch, batchYear} = req.query;

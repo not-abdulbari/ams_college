@@ -6,8 +6,28 @@ const { QueryTypes } = require("sequelize");
 const jwt = require("jsonwebtoken");
 
 
- // GET student details via query parameter
- router.get('/details', async (req, res) => {
+/**
+ * @swagger
+ * /api/students/details:
+ *   get:
+ *     summary: Get student details by roll number (query)
+ *     tags: [Students]
+ *     parameters:
+ *       - in: query
+ *         name: rollNumber
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Student roll number
+ *     responses:
+ *       200:
+ *         description: Student details
+ *       400:
+ *         description: rollNumber is required
+ *       404:
+ *         description: Student not found
+ */
+router.get('/details', async (req, res) => {
   try {
     const { rollNumber } = req.query;
     if (!rollNumber) {
@@ -32,6 +52,42 @@ const jwt = require("jsonwebtoken");
 
 
 
+/**
+ * @swagger
+ * /api/students/register:
+ *   post:
+ *     summary: Register a new student
+ *     tags: [Students]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               rollNumber:
+ *                 type: string
+ *               dob:
+ *                 type: string
+ *               registerNumber:
+ *                 type: string
+ *               branch:
+ *                 type: string
+ *               section:
+ *                 type: string
+ *               batchYear:
+ *                 type: string
+ *               yearOfEntry:
+ *                 type: string
+ *               ...
+ *     responses:
+ *       201:
+ *         description: Student registered successfully
+ *       500:
+ *         description: Database error
+ */
 router.post("/register", async (req, res) => {
   const {
     name,
@@ -131,6 +187,31 @@ router.post("/register", async (req, res) => {
 });
 
 
+/**
+ * @swagger
+ * /api/students/login:
+ *   post:
+ *     summary: Student login
+ *     tags: [Students]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               rollNumber:
+ *                 type: string
+ *               dob:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       400:
+ *         description: Roll number and DOB are required
+ *       401:
+ *         description: Invalid roll number or DOB
+ */
 router.post("/login", async (req, res) => {
   const { rollNumber, dob } = req.body;
 
@@ -176,6 +257,27 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+/**
+ * @swagger
+ * /api/students/marks:
+ *   get:
+ *     summary: Get student marks by roll number
+ *     tags: [Students]
+ *     parameters:
+ *       - in: query
+ *         name: rollNumber
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Student roll number
+ *     responses:
+ *       200:
+ *         description: Student marks
+ *       400:
+ *         description: Missing rollNumber
+ *       404:
+ *         description: Student not found
+ */
 router.get("/marks", async (req, res) => {
   try {
     const { rollNumber } = req.query;
@@ -226,6 +328,27 @@ router.get("/marks", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+/**
+ * @swagger
+ * /api/students/attendance:
+ *   get:
+ *     summary: Get student attendance by roll number
+ *     tags: [Students]
+ *     parameters:
+ *       - in: query
+ *         name: rollNumber
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Student roll number
+ *     responses:
+ *       200:
+ *         description: Student attendance
+ *       400:
+ *         description: Missing rollNumber
+ *       404:
+ *         description: Student not found
+ */
 router.get("/attendance", async (req, res) => {
   try {
     const { rollNumber } = req.query;
@@ -335,6 +458,25 @@ router.get("/attendance", async (req, res) => {
 
 
 /// Get student details
+/**
+ * @swagger
+ * /api/students/{rollNumber}:
+ *   get:
+ *     summary: Get student details by roll number (path)
+ *     tags: [Students]
+ *     parameters:
+ *       - in: path
+ *         name: rollNumber
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Student roll number
+ *     responses:
+ *       200:
+ *         description: Student details
+ *       404:
+ *         description: Student not found
+ */
 router.get('/:rollNumber', async (req, res) => {
   try {
     // Use Sequelize to query the database

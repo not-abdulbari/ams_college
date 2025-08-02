@@ -5,6 +5,11 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 
+// Swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerOptions = require('./swagger');
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -42,6 +47,10 @@ app.use(cors(corsOptions));
 app.use(limiter);
 app.options('*', cors(corsOptions));
 
+// Swagger setup
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Mount routes
 const studentRoutes = require('./routes/studentRoutes');
 const facultyRoutes = require('./routes/facultyRoutes');
@@ -59,3 +68,5 @@ app.get('/api/health', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Swagger UI available at http://localhost:7000/api-docs

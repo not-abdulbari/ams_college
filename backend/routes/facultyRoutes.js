@@ -25,7 +25,33 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-// Faculty Login
+/**
+ * @swagger
+ * /api/faculty/login:
+ *   post:
+ *     summary: Faculty login
+ *     tags: [Faculty]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               faculty_code:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       400:
+ *         description: Faculty code and password are required
+ *       404:
+ *         description: Faculty not found
+ *       401:
+ *         description: Invalid password
+ */
 router.post("/login", async (req, res) => {
   const { faculty_code, password } = req.body;
 
@@ -76,7 +102,35 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Faculty Registration
+/**
+ * @swagger
+ * /api/faculty/register:
+ *   post:
+ *     summary: Register a new faculty
+ *     tags: [Faculty]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               faculty_code:
+ *                 type: string
+ *               faculty_name:
+ *                 type: string
+ *               designation:
+ *                 type: string
+ *               branch:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Faculty registered successfully
+ *       409:
+ *         description: Faculty already exists
+ *       500:
+ *         description: Server error
+ */
 router.post("/register", async (req, res) => {
   const { faculty_code, faculty_name, designation, branch } = req.body;
   if (!faculty_code || !faculty_name || !designation || !branch) {

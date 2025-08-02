@@ -30,6 +30,41 @@ function compositeSort(dayField) {
 }
 
 // 1️⃣ Day-wise
+/**
+ * @swagger
+ * /api/admin/attendance/day:
+ *   get:
+ *     summary: Get day-wise attendance
+ *     tags: [Admin]
+ *     parameters:
+ *       - in: query
+ *         name: date
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Date (YYYY-MM-DD)
+ *       - in: query
+ *         name: entry
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Entry type (FN/AN)
+ *       - in: query
+ *         name: branch
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Branch
+ *       - in: query
+ *         name: rollNumber
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Roll number
+ *     responses:
+ *       200:
+ *         description: Day-wise attendance
+ */
 router.get('/attendance/day', async (req, res, next) => {
   const { date, entry, branch, rollNumber } = req.query;
   const period = entry === 'AN' ? 5 : 1;
@@ -74,6 +109,41 @@ router.get('/attendance/day', async (req, res, next) => {
 });
 
 // 2️⃣ Month-wise
+/**
+ * @swagger
+ * /api/admin/attendance/month:
+ *   get:
+ *     summary: Get month-wise attendance
+ *     tags: [Admin]
+ *     parameters:
+ *       - in: query
+ *         name: month
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Month (YYYY-MM)
+ *       - in: query
+ *         name: entry
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Entry type (FN/AN)
+ *       - in: query
+ *         name: branch
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Branch
+ *       - in: query
+ *         name: rollNumber
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Roll number
+ *     responses:
+ *       200:
+ *         description: Month-wise attendance
+ */
 router.get('/attendance/month', async (req, res, next) => {
   const { month, entry, branch, rollNumber } = req.query;
   const period = entry === 'AN' ? 5 : 1;
@@ -110,6 +180,41 @@ router.get('/attendance/month', async (req, res, next) => {
 });
 
 // 3️⃣ Duration-wise
+/**
+ * @swagger
+ * /api/admin/attendance/duration:
+ *   get:
+ *     summary: Get duration-wise attendance
+ *     tags: [Admin]
+ *     parameters:
+ *       - in: query
+ *         name: from
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Start date (YYYY-MM-DD)
+ *       - in: query
+ *         name: to
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: End date (YYYY-MM-DD)
+ *       - in: query
+ *         name: branch
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Branch
+ *       - in: query
+ *         name: rollNumber
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Roll number
+ *     responses:
+ *       200:
+ *         description: Duration-wise attendance
+ */
 router.get('/attendance/duration', async (req, res, next) => {
   const { from, to, branch, rollNumber } = req.query;
 
