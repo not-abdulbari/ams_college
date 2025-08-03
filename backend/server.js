@@ -28,7 +28,9 @@ const corsOptions = {
     const allowedOrigins = [
       'https://college-systemcahcet.vercel.app',
       'https://main.d1dqbntcyikp3v.amplifyapp.com',
-      'https://localhost:3000'
+      'https://localhost:3000',
+      'http://localhost:3000',
+      'http://localhost:7000'
     ];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
